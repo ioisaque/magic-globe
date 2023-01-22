@@ -1,0 +1,18 @@
+https://lastminuteengineers.com/l293d-motor-driver-shield-arduino-tutorial/
+
+https://www.fernandok.com/2017/12/motor-de-passo-com-arduino-e-o-driver.html
+
+{REPLACE "; layer" "M117 Layer"}
+{REPLACE * Z = " " Z="}
+;{REPLACE "\nM117 Layer 32, Z=" "\nG0 Z15 \nG1 X10 Y5 E-600\nM300 S1000 P1000\nM0G1 E3\nM117 Layer 32, Z="}
+
+M104 S0 ; turn off extruder
+M140 S0 ; turn off bed
+G91
+G1 Z10.0 F200
+M84 ; disable motors
+
+rtsp://192.168.1.108:554/user=isaque_password=kraken22_channel=1_stream=0.sdp?real_stream
+
+C:\Rubik's Cube>kociemba DRLUUBFBRBLURRLRUBLRDDFDLFUFUFFDBRDUBRUFLLFDDBFLUBLRBD
+D2 R' D' F2 B D R2 D2 R' F2 D' F2 U' B2 L2 U2 D R2 U

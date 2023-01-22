@@ -1,0 +1,78 @@
+.cubeButton {
+    z-index: 2;
+    float: left;
+    width: 11rem;
+    cursor: pointer;
+    position: absolute;
+}
+
+@media only screen and (max-device-width: 768px) {
+    /* Styles */
+    .cubeButton {
+        width: 7rem;
+    }
+}
+
+#cube-container {
+    cursor: grab;
+    background: black;
+}
+#cube-container:active {
+    cursor: grabbing;
+}
+#cube-state {
+    font-size: 1.1rem;
+    padding: 1rem;
+    cursor: pointer;
+    text-align: center;
+}
+
+.cube .sticker.red {
+    background: #e40303;
+}
+.cube .sticker.white {
+    background: #ffffff;
+}
+.cube .sticker.blue {
+    background: #004dff;
+}
+.cube .sticker.green {
+    background: #008026;
+}
+.cube .sticker.orange {
+    background: #ff8c00;
+}
+.cube .sticker.yellow {
+    background: #ffed00;
+}
+
+.cube .sticker.stickerLogo {
+    background-image: url(../media/rubiksLogoClassic.png);
+    background-size: 100% 100%;
+    background-repeat: none;
+    background-image: none;
+}
+
+#actionAlgorithm {
+    color: white;
+    /* width: 350px; */
+    height: 45px;
+    font-size: medium;
+    padding: 0px 10px;
+    font-family: "Rubik";
+    border: 1.5px solid gray;
+    background: transparent;
+}
+
+footer {
+    z-index: 2;
+    float: left;
+    width: 100%;
+    height: 50px;
+
+    left: 0;
+    bottom: 0;
+    cursor: pointer;
+    position: absolute;
+    text-align: center;
+}

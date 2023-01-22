@@ -1,0 +1,286 @@
+// #include <Adafruit_NeoPixel.h>
+#include <StringTokenizer.h>
+
+//#define STP_B  13
+//#define STP_L  12
+//#define STP_D  11
+//#define STP_F  10
+//#define STP_R   9
+//#define STP_U   8
+//#define DIRECT  7
+//#define ENABLE  6
+
+//#define ENABLE 9
+//#define STP_D  8
+//#define STP_U  7
+//#define STP_R  6
+//#define STP_L  5
+//#define STP_B  4
+//#define STP_F  3
+//#define DIRECT 2
+
+
+////// GLOBAL ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int STEP_SPEED;
+unsigned long START;
+
+void wait4Algorithm();
+int getStepPIN(char motor);
+void rotateCube(String twist);
+void switchMotor(char motor, bool state);
+void executeAlgorithm(String algorithm);
+
+// Adafruit_NeoPixel ring(12, PIN_LED, NEO_GRB + NEO_KHZ800);
+
+////// SETUP ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void setup()
+{
+  // ring.begin();
+  // ring.show();
+  // ring.setBrightness(50);
+
+  Serial.begin(9600);
+
+//  pinMode(ENB_F, OUTPUT);
+//  pinMode(ENB_D, OUTPUT);
+//  pinMode(ENB_R, OUTPUT);
+//  pinMode(ENB_B, OUTPUT);
+//  pinMode(ENB_U, OUTPUT);
+//  pinMode(ENB_L, OUTPUT);
+  
+  pinMode(ENABLE, OUTPUT);
+
+  pinMode(DIRECT, OUTPUT);
+
+  pinMode(STP_F, OUTPUT);
+  pinMode(STP_D, OUTPUT);
+  pinMode(STP_R, OUTPUT);
+  pinMode(STP_B, OUTPUT);
+  pinMode(STP_U, OUTPUT);
+  pinMode(STP_L, OUTPUT);
+
+  STEP_SPEED = 600;
+  switchMotor('A', false);
+}
+////// LOOPING ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void loop()
+{
+//  rotateCube("U");
+   wait4Algorithm();
+}
+
+////// FUNCTIONS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int getStepPIN(char motor)
+{
+  switch (motor)
+  {
+    case 'F':
+      return STP_F;
+    case 'B':
+      return STP_B;
+    case 'L':
+      return STP_L;
+    case 'R':
+      return STP_R;
+    case 'D':
+      return STP_D;
+    case 'U':
+      return STP_U;
+    default:
+      return 0;
+  }
+}
+
+void switchMotor(char motor, bool state)
+{
+  int ON_OFF = 0;
+  motor = 'A';
+
+  if (state)
+    ON_OFF = LOW;
+  else
+    ON_OFF = HIGH;
+
+  //  switch (motor)
+  //  {
+  //  case 'F':
+  //    digitalWrite(ENB_F, ON_OFF);
+  //  case 'B':
+  //    digitalWrite(ENB_B, ON_OFF);
+  //  case 'L':
+  //    digitalWrite(ENB_L, ON_OFF);
+  //  case 'R':
+  //    digitalWrite(ENB_R, ON_OFF);
+  //  case 'D':
+  //    digitalWrite(ENB_D, ON_OFF);
+  //  case 'U':
+  //    digitalWrite(ENB_U, ON_OFF);
+  //  default:
+  //    digitalWrite(ENB_F, ON_OFF);
+  //    digitalWrite(ENB_B, ON_OFF);
+  //    digitalWrite(ENB_L, ON_OFF);
+  //    digitalWrite(ENB_R, ON_OFF);
+  //    digitalWrite(ENB_D, ON_OFF);
+  //    digitalWrite(ENB_U, ON_OFF);
+  digitalWrite(ENABLE, ON_OFF);
+  //  }
+}
+
+void wait4Algorithm()
+{
+  String algorithm = "";
+  char character;
+
+  // Enquanto receber algo pela serial
+  while (Serial.available() > 0)
+  {
+    // Lê byte da serial
+    character = Serial.read();
+    // Ignora character de quebra de linha
+    if (character != '\n')
+    {
+      // Concatena valores
+      algorithm.concat(character);
+    }
+    // Aguarda buffer serial ler próximo character
+    delay(10);
+  }
+  algorithm.toUpperCase();
+
+  if (algorithm != "")
+    executeAlgorithm(algorithm);
+}
+
+void rotateCube(String twist)
+{
+  twist.replace("'", "’");
+  twist.replace("*", "’");
+  twist.replace("\r", "");
+  int STEPS = 50, STP = getStepPIN(twist[0]);
+
+  Serial.print("Twist ");
+  Serial.print(twist[0]);
+
+  // Check if is clockwise
+  if (twist.indexOf("’") > 0)
+  {
+    Serial.print(" anti-clockwise ");
+    digitalWrite(DIRECT, LOW);
+  }
+  else
+  {
+    Serial.print(" clockwise ");
+    digitalWrite(DIRECT, HIGH);
+  }
+  // Check if is 180 degres
+  if (twist.indexOf("2") > 0)
+  {
+    Serial.println(" 180 degrees.");
+    STEPS = STEPS * 2;
+  }
+  else
+    Serial.println(" 90 degrees.");
+
+  // Twist the Cube
+  if (STP == 0)
+  {
+    // E = UD
+    // S = FB
+    // M = RL
+    int OLD_SPEED = STEP_SPEED;
+    STEP_SPEED = STEP_SPEED - 100;
+
+    if (twist.indexOf("’") < 0)
+    {
+      Serial.print(" anti-clockwise ");
+      digitalWrite(DIRECT, LOW);
+    }
+    else
+    {
+      Serial.print(" clockwise ");
+      digitalWrite(DIRECT, HIGH);
+    }
+
+    switch (twist[0])
+    {
+      case 'M':
+        switchMotor('R', true);
+        switchMotor('L', true);
+        for (int x = 0; x < STEPS; x++)
+        {
+          delayMicroseconds(STEP_SPEED);
+          digitalWrite(STP_R, HIGH);
+          digitalWrite(STP_L, HIGH);
+          delayMicroseconds(STEP_SPEED);
+          digitalWrite(STP_R, LOW);
+          digitalWrite(STP_L, LOW);
+        }
+        switchMotor('R', false);
+        switchMotor('L', false);
+        break;
+      case 'S':
+        switchMotor('F', true);
+        switchMotor('B', true);
+        for (int x = 0; x < STEPS; x++)
+        {
+          delayMicroseconds(STEP_SPEED);
+          digitalWrite(STP_F, HIGH);
+          digitalWrite(STP_B, HIGH);
+          delayMicroseconds(STEP_SPEED);
+          digitalWrite(STP_F, LOW);
+          digitalWrite(STP_B, LOW);
+        }
+        switchMotor('F', false);
+        switchMotor('B', false);
+        break;
+      case 'E':
+        switchMotor('U', true);
+        switchMotor('D', true);
+        for (int x = 0; x < STEPS; x++)
+        {
+          delayMicroseconds(STEP_SPEED);
+          digitalWrite(STP_U, HIGH);
+          digitalWrite(STP_D, HIGH);
+          delayMicroseconds(STEP_SPEED);
+          digitalWrite(STP_U, LOW);
+          digitalWrite(STP_D, LOW);
+        }
+        switchMotor('U', false);
+        switchMotor('D', false);
+        break;
+      default:
+        Serial.println("Invalid Twist...");
+        break;
+    }
+    STEP_SPEED = OLD_SPEED;
+  }
+  else
+  {
+    switchMotor(twist[0], true);
+    for (int x = 0; x < STEPS; x++)
+    {
+      delayMicroseconds(STEP_SPEED);
+      digitalWrite(STP, HIGH);
+      delayMicroseconds(STEP_SPEED);
+      digitalWrite(STP, LOW);
+    }
+    switchMotor(twist[0], false);
+  }
+}
+
+void executeAlgorithm(String algorithm)
+{
+  START = millis();
+  StringTokenizer tokens(algorithm, " ");
+
+  while (tokens.hasNext()){
+    rotateCube(tokens.nextToken());
+  }
+
+  Serial.print(algorithm);
+  Serial.print(" ... ");
+  Serial.print("done in ");
+  Serial.print(float(millis() - START) / 1000);
+  Serial.println(" secs.");
+}

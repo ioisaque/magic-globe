@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rubik's Cube</title>
+    <style>html,body{width:100%;height:100%;margin:0;background:#000}.actions-container{width:80%;height:55%;position:absolute;left:0;right:0;top:0;bottom:0;margin:auto;max-width:100%;max-height:100%;overflow:auto}.actions-container .row{width:100%;display:flex;justify-content:space-around!important}.actions-container .row .button{border: none;width:100px;height:100px;margin:10px;cursor:pointer;text-align:center;line-height:100px;border-radius:5px;display:inline-block}.button.red{background:#fe1535}.button.white{background:#efebec}.button.blue{background:#3bbedc}.button.green{background:#59da28}.button.orange{background:#ff6016}.button.yellow{background:#f1fb00}.button.gold{width:87%!important;margin-top:65px!important;background:gold}.actions-container .row .button p{margin:0;color:black;font-size:37px;font-weight:800;line-height:normal;display:inline-block;vertical-align:middle;text-decoration:none;font-family:Arial}footer{z-index:2;float:left;width:100%;height:50px;left:0;bottom:0;cursor:pointer;position:absolute;text-align:center}</style>
+  </head>
+ <body class="graydient">
+  <div class="actions-container">
+    <div class="row">
+      <button onclick="sendAJAX('U')" class="button yellow"><p>U</p></button>
+      <button onclick="sendAJAX('U*')" class="button yellow"><p>U'</p></button>
+      <button onclick="sendAJAX('D')" class="button white"><p>D</p></button>
+      <button onclick="sendAJAX('D*')" class="button white"><p>D'</p></button>
+    </div>
+    <div class="row">
+      <button onclick="sendAJAX('F')" class="button red"><p>F</p></button>
+      <button onclick="sendAJAX('F*')" class="button red"><p>F'</p></button>
+      <button onclick="sendAJAX('B')" class="button orange"><p>B</p></button>
+      <button onclick="sendAJAX('B*')" class="button orange"><p>B'</p></button>
+    </div>
+    <div class="row">
+      <button onclick="sendAJAX('L')" class="button blue"><p>L</p></button>
+      <button onclick="sendAJAX('L*')" class="button blue"><p>L'</p></button>
+      <button onclick="sendAJAX('R')" class="button green"><p>R</p></button>
+      <button onclick="sendAJAX('R*')" class="button green"><p>R'</p></button>
+    </div>
+    <div class="row">
+      <button onclick="sendAJAX('R L U2 R L* B2 U2 R2 F2 L2 D2 L2 F2')" class="button gold"><p>R L U2 R L' B2 U2 R2 F2 L2 D2 L2 F2</p></button>
+    </div>
+  </div>
+  <footer><a href="http://isaquecosta.com.br"><img src="http://cdn.isaquecosta.com.br/marketing/copyright_light.png"></a></footer>
+
+ </body>
+  <script>
+    function sendAJAX(command)
+    {      
+      let xhr = new XMLHttpRequest();      
+      xhr.open("POST", "http://192.168.0.43/turn", true);
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");      
+      xhr.send("command="+command);
+    };
+  document.addEventListener('DOMContentLoaded', sendAJAX, false);
+  </script>
+</html>

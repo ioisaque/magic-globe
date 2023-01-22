@@ -1,0 +1,15 @@
+{
+  "id": "MagicGlobe",
+  "name": "Magic Globe",
+  "app_name": "Magic Globe",
+  "short_name": "Magic Globe",
+  "scope": "./",
+  "start_url": "./",
+  "orientation": "landscape",
+  "display": "fullscreen",
+  "theme_color": "#f9142a",
+  "background_color": "#ffb22b",
+  "icons": [
+    { "src": "https://ideyou.com.br/globomagico/assets/images/MagicGlobeNoContour.png", "sizes": "1080x1080", "type": "image/png" }
+  ]
+}

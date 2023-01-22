@@ -1,0 +1,276 @@
+@charset "UTF-8";
+@font-face {
+
+	font-family: 'Rubik';
+	src: url('../media/fonts/Rubik.eot');
+	src: url('../media/fonts/Rubik.eot?#iefix') format('embedded-opentype'),
+	     url('../media/fonts/Rubik.otf')        format('opentype'),
+	     url('../media/fonts/Rubik.woff')       format('woff'),
+	     url('../media/fonts/Rubik.ttf')        format('truetype'),
+	     url('../media/fonts/Rubik.svg#Rubik')  format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	
+	font-family: 'RubikExtended';
+	src: url('../media/fonts/RubikExtended.eot');
+	src: url('../media/fonts/RubikExtended.eot?#iefix')        format('embedded-opentype'),
+	     url('../media/fonts/RubikExtended.otf')               format('opentype'),
+	     url('../media/fonts/RubikExtended.woff')              format('woff'),
+	     url('../media/fonts/RubikExtended.ttf')               format('truetype'),
+	     url('../media/fonts/RubikExtended.svg#RubikExtended') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+
+
+
+    /************/
+   /*          */
+  /*   Cube   */
+ /*          */
+/************/
+
+.cube {
+
+	width:  100%;
+	height: 100%;
+}
+/*
+
+	This next bit is just for labeling a Cube’s face.
+
+*/
+.faceLabel {
+
+	display: block;
+	position: absolute;
+	font-size:    0.5em;
+	text-align: center;	
+	font-family: RubikExtended;
+	text-shadow: 0 0 12px rgba( 0, 0, 0, 0.5 );
+	color: #FFF;
+}
+
+
+
+
+    /****************/
+   /*              */
+  /*   Cubelets   */
+ /*              */
+/****************/
+
+
+.cube .cubelet {
+
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+	position: absolute;
+	width:  1em;
+	height: 1em;
+}
+
+
+
+
+    /*********************/
+   /*                   */
+  /*   Cubelet Faces   */
+ /*                   */
+/*********************/
+
+
+/*
+	
+	Direction-facing planes of limited size
+	that act as containers for content.
+
+*/
+.cube .cubelet > .face {
+
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+	position: absolute;
+	width:  1em;
+	height: 1em;
+	background-color: #000;
+	padding: 0.05em;
+	text-align: center;
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility:    hidden;
+	-o-backface-visibility:      hidden;
+	backface-visibility:         hidden;
+	-webkit-transform-style: preserve-3d;
+	-moz-transform-style:    preserve-3d;
+	-o-transform-style:      preserve-3d;
+	transform-style:         preserve-3d;
+}
+/*
+
+	Extroverted faces have content such as a colored sticker, text, etc.
+	They are constantly visible. Meanwhile introverted faces are not
+	visible when the cube is an untwisted state. Some introverted walls 
+	are momentarily visible as the cube twists.
+
+*/
+.cube .cubelet > .face.faceIntroverted { background-color: #000; }
+/*
+
+	Our Cubelet faces are naturally black to match the physical Rubik’s Cube.
+	Adding or removing the "transparent" class here keeps the position and
+	rotation integrity of the face while supporting Group.showPlastics() and
+	Group.hidePlastics().
+
+*/
+.cube .cubelet > .face.faceTransparent { background-color: transparent; }
+/*
+
+	Awwww.... Look at da purty colors...
+
+*/
+.purty .face { opacity: 0.5; }
+.purty .face.faceFront { background-color: #FFF !important; }
+.purty .face.faceUp    { background-color: #F60 !important; }
+.purty .face.faceRight { background-color: #00D !important; }
+.purty .face.faceDown  { background-color: #F00 !important; }
+.purty .face.faceLeft  { background-color: #0A0 !important; }
+.purty .face.faceBack  { background-color: #FE0 !important; }
+.purty .sticker { background-color: transparent !important; }
+
+
+
+
+    /****************************/
+   /*                          */
+  /*   Cubelet Face Content   */
+ /*                          */
+/****************************/
+
+
+/*
+
+	WIREFRAMES
+
+	This is a perfect use of box-sizing, eh?
+
+*/
+.cube .cubelet > .face > .wireframe {
+
+	-moz-box-sizing: border-box;
+  	-webkit-box-sizing: border-box;
+  	-o-box-sizing: border-box;
+  	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+	display: none;
+	position: absolute;
+	top:  0;
+	left: 0;
+	width:  100%;
+	height: 100%;
+	border: 2px solid rgba( 255, 255, 255, 0.20 );
+	background-color: rgba( 255, 255, 255, 0.05 );
+}
+/*
+
+	STICKERS
+
+	About what you’d expect. The default color here
+	is full on bright purple (which does not exist 
+	on an actual Rubik’s Cube) so that one can see 
+	quickly if something’s gone wrong with stickers.
+
+*/
+.cube .sticker {
+
+	width:  100%;
+	height: 100%;
+	background-color: #F0F;
+	border-radius: 0.1em;
+	text-align: center;
+}
+.cube .stickerLogo {
+
+	background-image: url( ../media/rubiksLogoClassic.png );
+	background-size: 100% 100%;
+	background-repeat: none;
+}
+.cube .sticker.red    { background-color: #DC422F; }
+.cube .sticker.white  { background-color: #F3F3F3; }
+.cube .sticker.blue   { background-color: #3D81F6; }
+.cube .sticker.green  { background-color: #009D54; }
+.cube .sticker.orange { background-color: #E87000; }
+.cube .sticker.yellow { background-color: #F5B400; }
+/*
+
+	CUBELET IDs
+
+	Each Cubelet has a unique ID number from 0 to 26.
+	We display these mostly for debugging purposes
+	as the end user probably doesn’t care and/or would
+	find this superfluous info confusing.
+
+*/
+.cube .cubelet > .face > .id {
+
+	display: none;
+	position: absolute;
+	z-index: 1000;
+	width:  90%;
+	height: 90%;
+	font-size:   0.25em;
+	line-height: 3.70em;
+	text-align: center;
+	color: #000;
+}
+.cube .cubelet > .face > .id > .underline {
+
+	border-bottom: 1px solid #000;
+}
+/*
+
+	We want ID numbers displayed on introverted faces to be white,
+	but why use #FEFEFE instead of #FFF?
+	So we can export as PDF, open up in Adobe Illustrator, select “Same Fill Color”
+	and it will exclude our #FFF text nodes!
+
+*/
+.cube .cubelet > .face.faceIntroverted > .id {
+
+	color: #FEFEFE;
+}
+.cube .cubelet > .face.faceIntroverted > .id > .underline {
+
+	border-bottom: 1px solid #FEFEFE;
+}
+/*
+	
+	TEXT
+
+	Formerly referred to as “Hero Text”, this is the one-character
+	display for a Cubelet face.
+
+*/
+.cube .cubelet > .face > .text {
+
+	display: none;
+	position: absolute;
+	z-index: 2000;
+	width:  100%;
+	height: 100%;
+	text-align: center;
+	color: #FFF;
+	font-family: RubikExtended, sans-serif;
+	font-size:   1.0em;
+	line-height: 1.2em;
+}
+
+
